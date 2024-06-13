@@ -2097,9 +2097,9 @@ class WPS_Prime_Customize {
 	}
 
 	private function luminance( $hex, $percent ) {
-			// validate hex string
-			$hex     = preg_replace( '/[^0-9a-f]/i', '', $hex );
-			$new_hex = '#';
+		// validate hex string
+		$hex     = preg_replace( '/[^0-9a-f]/i', '', $hex );
+		$new_hex = '#';
 
 		if ( strlen( $hex ) < 6 ) {
 			$hex = $hex[0] + $hex[0] + $hex[1] + $hex[1] + $hex[2] + $hex[2];
@@ -2109,9 +2109,10 @@ class WPS_Prime_Customize {
 		for ( $i = 0; $i < 3; $i++ ) {
 			$dec      = hexdec( substr( $hex, $i * 2, 2 ) );
 			$dec      = min( max( 0, $dec + $dec * $percent ), 255 );
-			$new_hex .= str_pad( dechex( $dec ), 2, 0, STR_PAD_LEFT );
+			// update for PHP teste in 8.2 - solved PHP Deprecated: Implicit conversion from float to int loses precision
+			$new_hex .= str_pad( dechex( intval( $dec ) ), 2, 0, STR_PAD_LEFT );
 		}
-			return $new_hex;
+		return $new_hex;
 	}
 }
 
